@@ -1,33 +1,33 @@
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Auto_Builder_API.Controllers
 {
     [ApiController]
+
+    // route "controller sets base endpoint as /WeatherForecast removing controller by default"
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class TemplateController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
+        [HttpGet("hello-world")]
+        public ActionResult GetHello() { 
+            return Content("Hello World");
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("age")]
+        public ActionResult GetAge(int age)
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return Content("you are " + $"{age} years old");
         }
+
+        [HttpGet("template-engine")]
+        public ActionResult GetTemplateCode()
+        {
+            return Content("wtf");
+        }
+
     }
 }
