@@ -32,8 +32,27 @@ namespace Auto_Builder_API.Controllers
             var result = template.Render(new { Message = "hello world!" }); // => print('hello world!')
 
             return Content(result);
-//            return Content("wtf");
+        
         }
+
+        // mongodb+srv://tronn232003_db_user:OGIajsgGJSJZtCB6@mongo-storage.jv1w2i6.mongodb.net/?appName=mongo-storage
+        // retrieve data from mongodb
+        [HttpGet("mongo-collection/content")]
+        public ActionResult GetMongoParams(string uri)
+        {
+            return Ok();
+        }
+
+        [HttpGet("addition")]
+        public ActionResult GetSum(int num1, int num2)
+        {
+            int result = num1 + num2;
+            //return Ok(new { result });
+            //return product == null ? NotFound() : Ok(product);
+            return Ok(result);
+        }
+
+
 
     }
 }
