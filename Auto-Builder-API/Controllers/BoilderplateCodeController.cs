@@ -37,11 +37,19 @@ namespace Auto_Builder_API.Controllers
 
         // mongodb+srv://tronn232003_db_user:OGIajsgGJSJZtCB6@mongo-storage.jv1w2i6.mongodb.net/?appName=mongo-storage
         // retrieve data from mongodb
-        [HttpGet("mongo-collection/content")]
+        [HttpGet("mongo-params")]
         public ActionResult GetMongoParams(string uri)
         {
             return Ok();
         }
+
+        // use traditional GET request first to see how to fetch data from mongo using ASP.NET
+        [HttpGet("mongo-content")]
+        public ActionResult GetMongoContent()
+        {
+            return Ok();
+        }
+
 
         [HttpGet("addition")]
         public ActionResult GetSum(int num1, int num2)
@@ -52,6 +60,23 @@ namespace Auto_Builder_API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("fastapi-example")]
+        public ActionResult FastAPI()
+        {
+
+            var template = Template.Parse("{{ fastapi.import }}\n{{ fastapi.initialize }}\n{{ fastapi.endpoint }}");
+            
+            var result = template.Render(new
+            {
+                Fastapi = new { 
+                    Import = "from fastapi import FastAPI", 
+                    Initialize = "app = FastAPI()", 
+                    Endpoint = "@app.get(\"/\")\ndef read_root():\n\treturn {\"Hello\": \"World\"}" }
+            });
+
+            return Content(result);
+
+        }
 
 
     }
