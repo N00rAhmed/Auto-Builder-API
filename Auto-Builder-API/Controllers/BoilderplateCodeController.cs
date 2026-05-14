@@ -14,8 +14,33 @@ namespace Auto_Builder_API.Controllers
     {
 
         [HttpGet("hello-world")]
-        public ActionResult GetHello() { 
-            return Content("Hello World");
+        public ActionResult GetHello() {
+
+            var template = Template.Parse(@"
+<ul id='products'>
+    <li>
+      <h2>Hello World</h2>
+            NIOFERNIERONFER
+
+
+    </li>
+</ul>
+
+Helloo
+
+
+WORLDDD
+
+");
+            //var result = template.Render(template);
+            // var result = template.Render(new { Products = this.ProductList });
+            //var result = template.Render(new { Name = "World" });
+            //var result = template.Render(template);
+            var result = template.Render();
+
+            return Content(result);
+
+            //return Content("Hello World");
         }
 
         [HttpGet("age")]
@@ -64,16 +89,20 @@ namespace Auto_Builder_API.Controllers
         public ActionResult FastAPI()
         {
 
-            var template = Template.Parse("{{ fastapi.import }}\n{{ fastapi.initialize }}\n{{ fastapi.endpoint }}");
-            
-            var result = template.Render(new
-            {
-                Fastapi = new { 
-                    Import = "from fastapi import FastAPI", 
-                    Initialize = "app = FastAPI()", 
-                    Endpoint = "@app.get(\"/\")\ndef read_root():\n\treturn {\"Hello\": \"World\"}" }
-            });
+            var template = Template.Parse(
+                """
+                from fastapi import FastAPI
 
+                app = FastAPI()
+
+                @app.get("/")
+                def read_root():
+                    return {"Hello": "World"}
+                """
+                );
+
+
+            var result = template.Render();
             return Content(result);
 
         }
